@@ -1,0 +1,65 @@
+{
+  "cities": [
+    {
+      "cityName": "Lisbon",
+      "country": "Portugal",
+      "emoji": "🇵🇹",
+      "date": "2027-10-31T15:59:59.138Z",
+      "notes": "My favorite city so far!",
+      "position": {
+        "lat": 38.727881642324164,
+        "lng": -9.140900099907554
+      },
+      "id": 73930385
+    },
+    {
+      "cityName": "Bogota",
+      "country": "Colombia",
+      "emoji": "🇨🇴",
+      "date": "2023-07-16T00:49:03.128Z",
+      "notes": "",
+      "position": {
+        "lat": "4.667122971674934",
+        "lng": "-74.07257080078126"
+      },
+      "id": 98443198
+    },
+    {
+      "cityName": "Berlin",
+      "country": "Germany",
+      "emoji": "🇩🇪",
+      "date": "2023-07-17T15:36:29.361Z",
+      "notes": "great ⭐",
+      "position": {
+        "lat": "52.496159531097106",
+        "lng": "13.381347656250002"
+      },
+      "id": 98443199
+    },
+    {
+      "cityName": "Madrid",
+      "country": "Spain",
+      "emoji": "🇪🇸",
+      "date": "2023-07-17T15:39:28.495Z",
+      "notes": "nice!",
+      "position": {
+        "lat": "40.4166327886885",
+        "lng": "-3.7023925781250004"
+      },
+      "id": 98443200
+    },
+    {
+      "cityName": "Naples",
+      "country": "Italy",
+      "emoji": "🇮🇹",
+      "date": "2023-07-17T16:47:11.313Z",
+      "notes": "Pizza 🍕",
+      "position": {
+        "lat": "40.83522629551064",
+        "lng": "14.246349334716799"
+      },
+      "id": 98443201
+    }
+  ]
+}
+
