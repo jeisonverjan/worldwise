@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
 const apiKey = process.env.VITE_REACT_APP_API_KEY;
-const authDomain = import.meta.env.VITE_REACT_APP_AUTH_DOMAIN;
+const authDomain = process.env.VITE_REACT_APP_AUTH_DOMAIN;
 const projectId = process.env.VITE_REACT_APP_PROJECT_ID;
 const storageBucket = process.env.VITE_REACT_APP_STORAGE_BUCKET;
 const messagingSenderId = process.env.VITE_REACT_APP_MESSAGING_SENDER_ID;
