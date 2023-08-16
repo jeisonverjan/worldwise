@@ -1,6 +1,6 @@
 import styles from "./Homepage.module.css";
 import PageNav from "../components/PageNav";
-import LoginButton from "../components/loginButton";
+import LoginButton from "../components/LoginButton";
 
 export default function Homepage() {
   return (
