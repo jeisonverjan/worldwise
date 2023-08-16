@@ -27,8 +27,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const domain = import.meta.env.VITE_REACT_APP_AUT0_DOMAIN;
-const clientId = import.meta.env.VITE_REACT_APP_AUT0_CLIENT_ID;
+const domain = process.env.VITE_REACT_APP_AUT0_DOMAIN;
+const clientId = process.env.VITE_REACT_APP_AUT0_CLIENT_ID;
 
 function App() {
   return (
