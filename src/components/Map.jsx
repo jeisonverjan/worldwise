@@ -8,15 +8,16 @@ import {
 } from "react-leaflet";
 import styles from "./Map.module.css";
 import { useNavigate } from "react-router-dom";
-import { useCities } from "../contexts/CitiesContext";
 import { useEffect, useState } from "react";
 import { useGeolocation } from "../hooks/useGeoLocation";
 import Button from "./Button";
 import { useUrlPosition } from "../hooks/useUrlPosition";
+import { useGetPlaces } from "../Features/places/useGetPlaces";
+import Spinner from "./Spinner";
 
 function Map() {
   const [mapPosition, setMapPosition] = useState([40, 0]);
-  const { cities } = useCities();
+  const { data: places, isLoading: isLoadingPlaces } = useGetPlaces();
 
   const {
     position: geolocationPosition,
@@ -41,6 +42,7 @@ function Map() {
     [geolocationPosition]
   );
 
+  if (isLoadingPlaces) return <Spinner />;
   return (
     <div className={styles.mapContainer}>
       {!geolocationPosition && (
@@ -58,7 +60,7 @@ function Map() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
         />
-        {cities.map((city) => (
+        {places.map((city) => (
           <Marker
             position={[city.position.lat, city.position.lng]}
             key={city.id}

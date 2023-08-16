@@ -1,7 +1,4 @@
-import { useEffect } from "react";
-import { useCities } from "../contexts/CitiesContext";
 import styles from "./City.module.css";
-import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import BackButton from "./BackButton";
 import { useCurrentPlace } from "../Features/places/useCurrentPlace";
@@ -17,7 +14,7 @@ const formatDate = (date) =>
 
 function City() {
   const { isLoading: isLoadingPlace, currentPlace } = useCurrentPlace();
- 
+
   if (isLoadingPlace) return <Spinner />;
 
   const { cityName, countryCode: emoji, date, notes } = currentPlace;

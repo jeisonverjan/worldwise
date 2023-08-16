@@ -1,8 +1,10 @@
-import { useCities } from "../contexts/CitiesContext";
 import styles from "./CityItem.module.css";
 import { Link } from "react-router-dom";
 import ReactCountryFlag from "react-country-flag";
-
+import { usePlaceContext } from "../contexts/PlaceContext";
+import { useDeletePlace } from "../Features/places/useDeletePlace";
+import Spinner from "./Spinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -12,22 +14,23 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function CityItem({ city }) {
-  const { currentCity, deleteCity } = useCities();
-
+  const { lastVisitedPlaceId } = usePlaceContext();
+  const { isLoading: isDeleting, deletePlaceMutation } = useDeletePlace();
+  const { user, isLoading: isLoadingUser } = useAuth0();
   const { cityName, countryCode: emoji, date, id, position } = city;
+
+  if (isDeleting || isLoadingUser) return <Spinner />;
 
   function handleClick(e) {
     e.preventDefault();
-    deleteCity(id);
+    deletePlaceMutation({ userId: user.nickname, placeId: id });
   }
-
-  //console.log(currentCity);
 
   return (
     <li>
       <Link
         className={`${styles.cityItem} ${
-          id === currentCity?.id ? styles["cityItem--active"] : ""
+          id === lastVisitedPlaceId?.key ? styles["cityItem--active"] : ""
         }`}
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
       >

@@ -8,7 +8,6 @@ function CityList() {
   const { data: places, isLoading: isLoadingCities } = useGetPlaces();
 
   if (isLoadingCities) return <Spinner />;
-
   if (!places.length)
     return (
       <Message

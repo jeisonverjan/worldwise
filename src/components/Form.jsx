@@ -9,19 +9,20 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { usePlace } from "../Features/places/usePlace";
 import { useState } from "react";
-import { addPlace } from "../services/apiPlace";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import ReactCountryFlag from "react-country-flag";
+import { useAddPlace } from "../Features/places/useAddPlace";
 
 function Form() {
   const { isLoading, newPlace, error } = usePlace();
+  const { isLoading: isAdding, addPlaceMutation } = useAddPlace();
   const [date, setDate] = useState(new Date());
   const [notes, setNotes] = useState("");
   const { user, isLoading: isLoadingUser } = useAuth0();
   const navigate = useNavigate();
 
-  if (isLoading || isLoadingUser) return <Spinner />;
+  if (isLoading || isLoadingUser || isAdding) return <Spinner />;
 
   const newCity = {
     ...newPlace,
@@ -33,7 +34,7 @@ function Form() {
   function handleSubmit(e) {
     e.preventDefault();
     if (!date || !newCity.userId) return;
-    addPlace(newCity);
+    addPlaceMutation(newCity);
     navigate("/app/cities");
   }
 

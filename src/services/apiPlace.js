@@ -1,14 +1,13 @@
 import { db } from "./firebase";
-import { push, ref, set, get } from "firebase/database";
+import { push, ref, set, get, remove } from "firebase/database";
 
 export async function addPlace(newPlace) {
   try {
     const placesRef = ref(db, `places/${newPlace.userId}`);
     const newPlaceRef = push(placesRef);
-
     const newPlaceKey = newPlaceRef.key;
     const newPlaceData = { ...newPlace };
-    console.log(newPlaceData, "from apiPlace");
+
     await set(newPlaceRef, newPlaceData);
     console.log("the place was successfully created");
     return { key: newPlaceKey, ...newPlaceData };
@@ -54,5 +53,16 @@ export async function getPlaceById(userId, placeId) {
   } catch (error) {
     console.error("Error al obtener el lugar:", error);
     throw error;
+  }
+}
+
+export async function deletePlace({ userId, placeId }) {
+  try {
+    const placeRef = ref(db, `places/${userId}/${placeId}`);
+
+    await remove(placeRef);
+    console.log("Place successfully deleted");
+  } catch (error) {
+    throw new Error("Error deleting the place.");
   }
 }

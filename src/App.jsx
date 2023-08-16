@@ -1,6 +1,5 @@
 import { Suspense, lazy } from "react";
 import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
-import { CitiesProvider } from "./contexts/CitiesContext";
 import { Auth0Provider } from "@auth0/auth0-react";
 
 import CityList from "./components/CityList";
@@ -11,13 +10,11 @@ import SpinnerFullPage from "./components/SpinnerFullPage";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { getPlaceName } from "./services/apiPlaceName";
-import { usePlace } from "./Features/places/usePlace";
+import { PlaceProvider } from "./contexts/PlaceContext";
 
 const Product = lazy(() => import("./pages/Product"));
 const Pricing = lazy(() => import("./pages/Pricing"));
 const HomePage = lazy(() => import("./pages/HomePage"));
-const Login = lazy(() => import("./pages/Login"));
 const AppLayout = lazy(() => import("./pages/AppLayout"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound"));
 
@@ -30,26 +27,28 @@ const queryClient = new QueryClient({
   },
 });
 
+const domain = import.meta.env.VITE_REACT_APP_AUT0_DOMAIN;
+const clientId = import.meta.env.VITE_REACT_APP_AUT0_CLIENT_ID;
+
 function App() {
   return (
     <div>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <Auth0Provider
-          domain="dev-x5045ld1e106zhqm.us.auth0.com"
-          clientId="FWNunhOz4jdyLmvFt3CG9X729Un4JIt9"
+          domain={domain}
+          clientId={clientId}
           authorizationParams={{
             redirect_uri: "http://localhost:5173/app",
           }}
         >
-          <CitiesProvider>
+          <PlaceProvider>
             <BrowserRouter>
               <Suspense fallback={<SpinnerFullPage />}>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="product" element={<Product />} />
                   <Route path="pricing" element={<Pricing />} />
-                  <Route path="/login" element={<Login />} />
                   <Route
                     path="/app"
                     element={
@@ -59,7 +58,7 @@ function App() {
                     }
                   >
                     <Route index element={<Navigate to="cities" replace />} />
-                    <Route path="cities" element={<CityList />} />
+                    <Route path="cities" element={<CityList />} exact />
                     <Route path="cities/:id" element={<City />} />
                     <Route path="countries" element={<CountriesList />} />
                     <Route path="form" element={<Form />} />
@@ -68,8 +67,7 @@ function App() {
                 </Routes>
               </Suspense>
             </BrowserRouter>
-          </CitiesProvider>
-          <button>submit</button>
+          </PlaceProvider>
         </Auth0Provider>
       </QueryClientProvider>
     </div>
