@@ -1,8 +1,8 @@
+import { useGetPlaces } from "../Features/places/useGetPlaces";
 import styles from "./CountryList.module.css";
 import CountryItem from "./CountryItem";
 import Spinner from "./Spinner";
 import Message from "./Message";
-import { useGetPlaces } from "../Features/places/useGetPlaces";
 
 function CountryList() {
   const { isLoadingCountry, countries } = useGetPlaces();

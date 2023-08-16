@@ -1,8 +1,8 @@
+import { useCurrentPlace } from "../Features/places/useCurrentPlace";
+import ReactCountryFlag from "react-country-flag";
 import styles from "./City.module.css";
 import Spinner from "./Spinner";
 import BackButton from "./BackButton";
-import { useCurrentPlace } from "../Features/places/useCurrentPlace";
-import ReactCountryFlag from "react-country-flag";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {

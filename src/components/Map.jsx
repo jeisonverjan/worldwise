@@ -10,10 +10,11 @@ import styles from "./Map.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useGeolocation } from "../hooks/useGeoLocation";
-import Button from "./Button";
 import { useUrlPosition } from "../hooks/useUrlPosition";
 import { useGetPlaces } from "../Features/places/useGetPlaces";
+
 import Spinner from "./Spinner";
+import Button from "./Button";
 
 function Map() {
   const [mapPosition, setMapPosition] = useState([40, 0]);

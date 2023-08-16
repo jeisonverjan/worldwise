@@ -1,10 +1,5 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
-import styles from "./Form.module.css";
-import Button from "./Button";
-import BackButton from "./BackButton";
-import Message from "./Message";
-import Spinner from "./Spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { usePlace } from "../Features/places/usePlace";
@@ -13,6 +8,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import ReactCountryFlag from "react-country-flag";
 import { useAddPlace } from "../Features/places/useAddPlace";
+
+import styles from "./Form.module.css";
+import Button from "./Button";
+import BackButton from "./BackButton";
+import Message from "./Message";
+import Spinner from "./Spinner";
 
 function Form() {
   const { isLoading, newPlace, error } = usePlace();

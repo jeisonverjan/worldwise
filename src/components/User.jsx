@@ -1,6 +1,6 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./User.module.css";
 import LogoutButton from "./LogoutButton";
-import { useAuth0 } from "@auth0/auth0-react";
 import Spinner from "./Spinner";
 
 function User() {

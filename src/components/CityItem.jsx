@@ -1,10 +1,11 @@
-import styles from "./CityItem.module.css";
-import { Link } from "react-router-dom";
-import ReactCountryFlag from "react-country-flag";
 import { usePlaceContext } from "../contexts/PlaceContext";
 import { useDeletePlace } from "../Features/places/useDeletePlace";
-import Spinner from "./Spinner";
+import { Link } from "react-router-dom";
+import ReactCountryFlag from "react-country-flag";
 import { useAuth0 } from "@auth0/auth0-react";
+
+import styles from "./CityItem.module.css";
+import Spinner from "./Spinner";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {

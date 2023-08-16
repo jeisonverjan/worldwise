@@ -1,8 +1,8 @@
+import { useGetPlaces } from "../Features/places/useGetPlaces";
 import styles from "./CityList.module.css";
 import Spinner from "./Spinner";
 import CityItem from "./CityItem";
 import Message from "./Message";
-import { useGetPlaces } from "../Features/places/useGetPlaces";
 
 function CityList() {
   const { data: places, isLoading: isLoadingCities } = useGetPlaces();
