@@ -1,134 +1,45 @@
 // "https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=0&longitude=0"
 
-import { useEffect, useReducer } from "react";
 import styles from "./Form.module.css";
 import Button from "./Button";
 import BackButton from "./BackButton";
-import { useUrlPosition } from "../hooks/useUrlPosition";
 import Message from "./Message";
 import Spinner from "./Spinner";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useCities } from "../contexts/CitiesContext";
+import { usePlace } from "../Features/places/usePlace";
+import { useState } from "react";
+import { addPlace } from "../services/apiPlace";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-
-export function convertToEmoji(countryCode) {
-  const codePoints = countryCode
-    .toUpperCase()
-    .split("")
-    .map((char) => 127397 + char.charCodeAt());
-
-  return String.fromCodePoint(...codePoints);
-}
-
-const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
-const initialState = {
-  isLoadingGeocoding: false,
-  cityName: "",
-  county: "",
-  emoji: "",
-  date: new Date(),
-  notes: "",
-  geoCodingError: "",
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "loading":
-      return { ...state, isLoadingGeocoding: true, geoCodingError: "" };
-    case "city/submitted":
-      return {
-        ...state,
-        cityName: action.payload.city || action.payload.locality || "",
-        country: action.payload.countryName,
-        emoji: convertToEmoji(action.payload.countryCode),
-        isLoadingGeocoding: false,
-      };
-    case "city/update": {
-      return { ...state, [action.field]: action.value };
-    }
-    case "rejected":
-      return {
-        ...state,
-        geoCodingError: action.payload,
-        isLoadingGeocoding: false,
-      };
-    default:
-      throw new Error("Action unknown");
-  }
-}
+import ReactCountryFlag from "react-country-flag";
 
 function Form() {
-  
+  const { isLoading, newPlace, error } = usePlace();
+  const [date, setDate] = useState(new Date());
+  const [notes, setNotes] = useState("");
+  const { user, isLoading: isLoadingUser } = useAuth0();
   const navigate = useNavigate();
-  const { createCity, isLoading } = useCities();
-  const { lat, lng } = useUrlPosition();
-  const [
-    {
-      isLoadingGeocoding,
-      cityName,
-      country,
-      emoji,
-      date,
-      notes,
-      geoCodingError,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialState);
 
-  useEffect(
-    function () {
-      if (!lat || !lng) return;
-      async function fetchCity() {
-        try {
-          dispatch({ type: "loading" });
-          const res = await fetch(
-            `${BASE_URL}?latitude=${lat}&longitude=${lng}`
-          );
-          const data = await res.json();
-          if (!data.countryName)
-            throw new Error(
-              `That that doesn't seem to be a city. Click somewhere else!`
-            );
+  if (isLoading || isLoadingUser) return <Spinner />;
 
-          dispatch({ type: "city/submitted", payload: data });
-        } catch (error) {
-          dispatch({ type: "rejected", payload: error.message });
-        }
-      }
-      fetchCity();
-    },
-    [lat, lng]
-  );
+  const newCity = {
+    ...newPlace,
+    date: date.toDateString(),
+    notes,
+    userId: user?.nickname,
+  };
 
-  async function handleSubmit(e) {
+  function handleSubmit(e) {
     e.preventDefault();
-    if (!cityName || !date) return;
-
-    const newCity = {
-      cityName,
-      country,
-      emoji,
-      date,
-      notes,
-      position: { lat, lng },
-    };
-    await createCity(newCity);
+    if (!date || !newCity.userId) return;
+    addPlace(newCity);
     navigate("/app/cities");
   }
 
-  function handleInputChange(event, fieldName) {
-    dispatch({
-      type: "city/update",
-      field: fieldName,
-      value: event.target.value,
-    });
-  }
-
-  if (!lat && !lng)
+  if (error) return <Message message={error.message} />;
+  if (!newPlace.cityName)
     return <Message message={"Start by clicking somewhere on the map!"} />;
-  if (isLoadingGeocoding) return <Spinner />;
-  if (geoCodingError) return <Message message={geoCodingError} />;
 
   return (
     <form
@@ -137,34 +48,31 @@ function Form() {
     >
       <div className={styles.row}>
         <label htmlFor="cityName">City name</label>
-        <input
-          id="cityName"
-          name="cityName"
-          value={cityName}
-          onChange={(e) => handleInputChange(e, e.target.name)}
-        />
-        <span className={styles.flag}>{emoji}</span>
+        <input id="cityName" name="cityName" defaultValue={newPlace.cityName} />
+        <span className={styles.flag}>
+          <ReactCountryFlag countryCode={newPlace.countryCode} svg />
+        </span>
       </div>
 
       <div className={styles.row}>
-        <label htmlFor="date">When did you go to {cityName}?</label>
+        <label htmlFor="date">When did you go to {newPlace.cityName}?</label>
         <DatePicker
           id="date"
           name="date"
           selected={date}
-          onChange={(date) =>
-            handleInputChange({ target: { value: date } }, "date")
-          }
+          onChange={(newDate) => setDate(newDate)}
         />
       </div>
 
       <div className={styles.row}>
-        <label htmlFor="notes">Notes about your trip to {cityName}</label>
+        <label htmlFor="notes">
+          Notes about your trip to {newPlace.cityName}
+        </label>
         <textarea
           id="notes"
           name="notes"
-          value={notes}
-          onChange={(e) => handleInputChange(e, e.target.name)}
+          defaultValue={notes}
+          onChange={(e) => setNotes(e.target.value)}
         />
       </div>
 

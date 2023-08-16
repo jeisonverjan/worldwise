@@ -14,8 +14,6 @@ function SideBar() {
       <Outlet />
 
       <Footer />
-
-      <TestComponent />
     </div>
   );
 }

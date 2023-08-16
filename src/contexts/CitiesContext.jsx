@@ -37,6 +37,8 @@ function reducer(state, action) {
         isLoading: false,
         currentCity: {},
       };
+    case "setCurrentPlace":
+      return { ...state, currentCity: action.payload };
     case "rejected":
       return { ...state, error: action.payload, isLoading: false };
     default:
@@ -118,6 +120,10 @@ function CitiesProvider({ children }) {
     }
   }
 
+  function setCurrentPlace(newPlace) {
+    dispatch({ type: "setCurrentPlace", payload: newPlace });
+  }
+
   return (
     <citiesContext.Provider
       value={{
@@ -128,6 +134,7 @@ function CitiesProvider({ children }) {
         getCity,
         createCity,
         deleteCity,
+        setCurrentPlace,
       }}
     >
       {children}

@@ -4,6 +4,8 @@ import styles from "./City.module.css";
 import { useParams } from "react-router-dom";
 import Spinner from "./Spinner";
 import BackButton from "./BackButton";
+import { useCurrentPlace } from "../Features/places/useCurrentPlace";
+import ReactCountryFlag from "react-country-flag";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -14,26 +16,21 @@ const formatDate = (date) =>
   }).format(new Date(date));
 
 function City() {
-  const { getCity, currentCity, isLoading } = useCities();
-  const { id } = useParams();
+  const { isLoading: isLoadingPlace, currentPlace } = useCurrentPlace();
+ 
+  if (isLoadingPlace) return <Spinner />;
 
-  useEffect(
-    function () {
-      getCity(id);
-    },
-    [id, getCity]
-  );
-
-  if (isLoading) return <Spinner />;
-
-  const { cityName, emoji, date, notes } = currentCity;
+  const { cityName, countryCode: emoji, date, notes } = currentPlace;
 
   return (
     <div className={styles.city}>
       <div className={styles.row}>
         <h6>City name</h6>
         <h3>
-          <span>{emoji}</span> {cityName}
+          <span>
+            <ReactCountryFlag countryCode={emoji} svg />
+          </span>
+          {cityName}
         </h3>
       </div>
 

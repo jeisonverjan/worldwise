@@ -23,8 +23,8 @@ function Map() {
     isLoading: isLoadingPosition,
     getPosition,
   } = useGeolocation();
-  
-  const {lat, lng} = useUrlPosition()
+
+  const { lat, lng } = useUrlPosition();
 
   useEffect(
     function () {

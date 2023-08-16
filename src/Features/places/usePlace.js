@@ -8,6 +8,7 @@ export function usePlace() {
   const { isLoading, data, error } = useQuery({
     queryKey: ["placeName", lat, lng],
     queryFn: () => getPlaceName({ lat, lng }),
+    retry: false,
   });
 
   const newPlace = {

@@ -35,6 +35,24 @@ export async function getPlacesByUserId(userId) {
     }
   } catch (error) {
     console.error("Error al obtener los lugares:", error);
-    throw error; // Propaga el error para manejo posterior
+    throw error;
+  }
+}
+
+export async function getPlaceById(userId, placeId) {
+  try {
+    const placeRef = ref(db, `places/${userId}/${placeId}`);
+
+    const snapshot = await get(placeRef);
+    if (snapshot.exists()) {
+      const placeData = snapshot.val();
+      return placeData;
+    } else {
+      console.log("No se encontró el lugar con el ID proporcionado.");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al obtener el lugar:", error);
+    throw error;
   }
 }
