@@ -27,8 +27,8 @@ const queryClient = new QueryClient({
   },
 });
 
-const domain = process.env.VITE_REACT_APP_AUT0_DOMAIN;
-const clientId = process.env.VITE_REACT_APP_AUT0_CLIENT_ID;
+/* const domain = process.env.VITE_REACT_APP_AUT0_DOMAIN;
+const clientId = process.env.VITE_REACT_APP_AUT0_CLIENT_ID; */
 
 function App() {
   return (
@@ -36,10 +36,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <Auth0Provider
-          domain={domain}
-          clientId={clientId}
+          domain="dev-x5045ld1e106zhqm.us.auth0.com"
+          clientId="FWNunhOz4jdyLmvFt3CG9X729Un4JIt9"
           authorizationParams={{
-            redirect_uri: "http://localhost:5173/app",
+            redirect_uri: "https://worldwise-v2.vercel.app/app",
           }}
         >
           <PlaceProvider>
