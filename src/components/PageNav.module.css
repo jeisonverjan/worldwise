@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .nav ul {
@@ -31,4 +32,12 @@ a.ctaLink:visited {
   color: var(--color-dark--0);
   padding: 0.8rem 2rem;
   border-radius: 7px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
 }

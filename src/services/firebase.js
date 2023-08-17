@@ -8,13 +8,6 @@ const storageBucket = import.meta.env.VITE_MY_STORAGE_BUCKET;
 const messagingSenderId = import.meta.env.VITE_MY_MESSAGING_SENDER_ID;
 const appId = import.meta.env.VITE_MY_APP_ID;
 
-console.log(apiKey);
-console.log(authDomain);
-console.log(projectId);
-console.log(storageBucket);
-console.log(messagingSenderId);
-console.log(appId);
-
 const firebaseConfig = {
   apiKey,
   authDomain,
